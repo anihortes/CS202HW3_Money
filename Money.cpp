@@ -1,10 +1,12 @@
 //
 // Created by A. Harrison Owen on 2/24/2021.
 //
-
+#include <iomanip>
 #include "Money.h"
+#include <iostream>
 
-Money::Money() : _dollars(0), _cents(0){}
+
+Money::Money() : _dollars(0), _cents(0), _value(0){}
 
 Money::Money(int dollars, int cents) : _dollars(dollars), _cents(cents) {
     _value = _dollars + _cents/100;
@@ -21,15 +23,16 @@ int Money::getCents() {
 }
 
 std::ostream &operator<<(std::ostream &os, const Money &money) {
-    if (money._value == 0){
-        os << "$0.00";
+    double temp = money._value;
+    if (temp == 0){
+        os << '$' << std::fixed << std::setprecision(2) << temp;
+        return os;
     }
-    else if(money._value < 0){
-        os << "$" << money._dollars << "." << money._cents;
+    if(temp < 0){
+        os << '-';
+        temp *= -1;
     }
-    else {
-        os << "$" << money._dollars << "." << money._cents;
-    }
+        os << '$' << std::fixed << std::setprecision(2) << temp;
     return os;
 }
 
@@ -116,4 +119,29 @@ Money &Money::operator--(int) {
 
 bool operator==(const Money &lhs, const Money &rhs) {
     return (lhs._dollars==rhs._dollars)&&(lhs._cents==rhs._cents);
+}
+
+bool operator<(const Money &lhs, const Money &rhs) {
+    if(lhs._dollars==rhs._dollars){
+        return lhs._cents<rhs._cents;
+    }
+    else {
+        return lhs._dollars<rhs._dollars;
+    }
+}
+
+bool operator!=(const Money &lhs, const Money &rhs) {
+    return !(lhs==rhs);
+}
+
+bool operator>(const Money &lhs, const Money &rhs) {
+    return rhs<lhs;
+}
+
+bool operator<=(const Money &lhs, const Money &rhs) {
+    return !(rhs>lhs);
+}
+
+bool operator>=(const Money &lhs, const Money &rhs) {
+    return !(rhs>lhs);
 }
