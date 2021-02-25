@@ -23,4 +23,8 @@ TEST_CASE("Set Money Values"){
     wallet-={5,99};
     REQUIRE(wallet.getDollars() == 5);
     REQUIRE(wallet.getCents() == 0);
+    Money temp = {2,99};
+    wallet-=temp;
+    REQUIRE(wallet.getDollars() == 3);
+    REQUIRE(wallet.getCents() == -99);
 }
