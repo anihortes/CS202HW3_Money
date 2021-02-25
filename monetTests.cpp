@@ -19,5 +19,8 @@ TEST_CASE("Set Money Values"){
     wallet = wallet+negWallet;
     REQUIRE(wallet.getDollars() == 0);
     REQUIRE(wallet.getCents() == 0);
-
+    wallet = {10,99};
+    wallet-={5,99};
+    REQUIRE(wallet.getDollars() == 5);
+    REQUIRE(wallet.getCents() == 0);
 }
