@@ -36,4 +36,15 @@ TEST_CASE("Set Money Values"){
     wallet /= wallet;
     REQUIRE(wallet.getDollars() == 1);
     REQUIRE(wallet.getCents() == 1);
+    temp = temp/wallet;
+    REQUIRE(temp.getDollars() == 12);
+    REQUIRE(temp.getCents() == -99);
+    wallet++;
+    REQUIRE(wallet.getDollars() == 2);
+    ++wallet;
+    REQUIRE(wallet.getDollars() == 3);
+    wallet--;
+    REQUIRE(wallet.getDollars() == 2);
+    --wallet;
+    REQUIRE(wallet.getDollars() == 1);
 }
