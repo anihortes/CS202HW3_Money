@@ -89,3 +89,31 @@ Money &Money::operator/=(const Money &rhs){
     _cents = _cents%100;
     return *this;
 }
+
+Money &Money::operator++() {
+    return *this+={1,0};
+}
+
+Money &Money::operator++(int) {
+    auto copy{*this};
+    ++(*this);
+    return copy;
+}
+
+Money operator/(Money lhs, const Money &rhs){
+    return (lhs /= rhs);
+}
+
+Money &Money::operator--() {
+    return *this-={1,0};
+}
+
+Money &Money::operator--(int) {
+    auto copy{*this};
+    --(*this);
+    return copy;
+}
+
+bool operator==(const Money &lhs, const Money &rhs) {
+    return (lhs._dollars==rhs._dollars)&&(lhs._cents==rhs._cents);
+}
