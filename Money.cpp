@@ -25,7 +25,7 @@ std::ostream &operator<<(std::ostream &os, const Money &money) {
         os << "$0.00";
     }
     else if(money._value < 0){
-        os << "$-" << money._dollars << "." << money._cents;
+        os << "$" << money._dollars << "." << money._cents;
     }
     else {
         os << "$" << money._dollars << "." << money._cents;
@@ -33,6 +33,59 @@ std::ostream &operator<<(std::ostream &os, const Money &money) {
     return os;
 }
 
+Money Money::operator-() const {
+    Money neg{ *this};
+    if(_dollars != 0){
+        neg._dollars *= -1;
+    }
+    else{
+        neg._cents *= -1;
+    }
+    return neg;
+}
 
+Money & Money::operator+=(const Money &rhs){
+    _dollars += rhs._dollars;
+    _cents += rhs._cents;
+    _cents = _cents%100;
 
+    return *this;
+}
 
+Money operator+(const Money &lhs, const Money &rhs) {
+    auto temp{lhs};
+    temp+=rhs;
+    return temp;
+}
+
+Money &Money::operator-=(const Money &rhs) {
+    _dollars -= rhs._dollars;
+    _cents -= rhs._cents;
+    _cents = _cents%100;
+
+    return *this;
+}
+
+Money operator-(const Money &lhs, const Money &rhs) {
+    auto temp{lhs};
+    temp-=rhs;
+    return temp;
+}
+
+Money &Money::operator*=(const Money &rhs){
+    _dollars *= rhs._dollars;
+    _cents *= rhs._cents;
+    _cents = _cents%100;
+    return *this;
+}
+
+Money operator*(Money lhs, const Money &rhs){
+    return (lhs *= rhs);
+}
+
+Money &Money::operator/=(const Money &rhs){
+    _dollars /= rhs._dollars;
+    _cents /= rhs._cents;
+    _cents = _cents%100;
+    return *this;
+}
