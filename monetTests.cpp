@@ -12,6 +12,7 @@ TEST_CASE("Set Money Values"){
     REQUIRE(wallet.getDollars() == 5);
     REQUIRE(wallet.getCents() == 25);
     cout << wallet << endl;
-
+    wallet = {12, 1};
+    cout << wallet << endl;
 
 }
