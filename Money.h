@@ -30,7 +30,7 @@ public:
     Money & operator++(int);
     Money & operator--();
     Money & operator--(int);
-    
+
 private:
     int _dollars;
     int _cents;

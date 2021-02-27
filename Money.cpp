@@ -1,10 +1,10 @@
-//
-// Created by A. Harrison Owen on 2/24/2021.
-//
+/* A. Harrison Owen
+ * CS202 Homework 3
+ * Professor Hartman
+ * 02/26/2021
+ */
 #include <iomanip>
 #include "Money.h"
-#include <iostream>
-#include <math.h>
 
 Money::Money(double a) : _cents(a){
     _dollars = getDollars();

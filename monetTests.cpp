@@ -3,11 +3,14 @@
 #include <iostream>
 using std::cout;
 using std::endl;
-
+#include <sstream>
 TEST_CASE("Set Money Values"){
     Money wallet;
     REQUIRE(wallet.getDollars() == 0);
     REQUIRE(wallet.getCents() == 0);
+    std::ostringstream out;
+    out << wallet;
+    REQUIRE(out.str() == "$0.00");
     wallet={5,25};
     REQUIRE(wallet.getDollars() == 5);
     REQUIRE(wallet.getCents() == 25);
@@ -47,4 +50,16 @@ TEST_CASE("Set Money Values"){
     REQUIRE(wallet.getDollars() == 2);
     --wallet;
     REQUIRE(wallet.getDollars() == 1);
+}
+TEST_CASE("Booleans with Money"){
+    Money wallet1 = {3,99};
+    Money wallet2 = {3,99};
+    REQUIRE(wallet1 == wallet2);
+    ++wallet1;
+    REQUIRE(wallet2<wallet1);
+    REQUIRE(wallet1 != wallet2);
+    REQUIRE(wallet1>wallet2);
+    wallet2++;
+    REQUIRE(wallet1++ >= wallet2);
+    REQUIRE(wallet2++ <= wallet2);
 }
