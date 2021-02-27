@@ -4,7 +4,16 @@
 #include <iomanip>
 #include "Money.h"
 #include <iostream>
+#include <math.h>
 
+Money::Money(double a) : _cents(a){
+    _dollars = getDollars();
+    _cents = getCents();
+    int toInt = int(a);
+    if(toInt/a == 1)
+    _value = a/100;
+    else _value = round(a*100)/100;
+}
 
 Money::Money() : _dollars(0), _cents(0), _value(0){}
 
@@ -15,7 +24,7 @@ Money::Money(int dollars, int cents) : _dollars(dollars), _cents(cents) {
 Money::~Money() {}
 
 int Money::getDollars() {
-    return _dollars;
+    return _cents/100;
 }
 
 int Money::getCents() {
@@ -50,8 +59,6 @@ Money Money::operator-() const {
 Money & Money::operator+=(const Money &rhs){
     _dollars += rhs._dollars;
     _cents += rhs._cents;
-    _cents = _cents%100;
-
     return *this;
 }
 
@@ -64,8 +71,6 @@ Money operator+(const Money &lhs, const Money &rhs) {
 Money &Money::operator-=(const Money &rhs) {
     _dollars -= rhs._dollars;
     _cents -= rhs._cents;
-    _cents = _cents%100;
-
     return *this;
 }
 
@@ -75,21 +80,23 @@ Money operator-(const Money &lhs, const Money &rhs) {
     return temp;
 }
 
-Money &Money::operator*=(const Money &rhs){
-    _dollars *= rhs._dollars;
-    _cents *= rhs._cents;
-    _cents = _cents%100;
+Money &Money::operator*=(const double &a){
+    _dollars *= a;
+    _cents *= a;
     return *this;
 }
 
-Money operator*(Money lhs, const Money &rhs){
-    return (lhs *= rhs);
+Money operator*(Money lhs, const double &a){
+    return (lhs *= a);
 }
 
-Money &Money::operator/=(const Money &rhs){
-    _dollars /= rhs._dollars;
-    _cents /= rhs._cents;
-    _cents = _cents%100;
+Money operator*(const double &a, Money rhs){
+    return (rhs *= a);
+}
+
+Money &Money::operator/=(const double &a){
+    _dollars /= a;
+    _cents /= a;
     return *this;
 }
 
@@ -100,11 +107,11 @@ Money &Money::operator++() {
 Money &Money::operator++(int) {
     auto copy{*this};
     ++(*this);
-    return copy;
+    return *this;
 }
 
-Money operator/(Money lhs, const Money &rhs){
-    return (lhs /= rhs);
+Money operator/(Money lhs, const double &a){
+    return (lhs /= a);
 }
 
 Money &Money::operator--() {
@@ -114,7 +121,7 @@ Money &Money::operator--() {
 Money &Money::operator--(int) {
     auto copy{*this};
     --(*this);
-    return copy;
+    return *this;
 }
 
 bool operator==(const Money &lhs, const Money &rhs) {
@@ -139,7 +146,7 @@ bool operator>(const Money &lhs, const Money &rhs) {
 }
 
 bool operator<=(const Money &lhs, const Money &rhs) {
-    return !(rhs>lhs);
+    return !(lhs>rhs);
 }
 
 bool operator>=(const Money &lhs, const Money &rhs) {
